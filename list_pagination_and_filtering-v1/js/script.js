@@ -115,3 +115,41 @@ function notFound() {
         parent.removeChild(paginationDiv);
     }
 }
+
+// Function that clears the not found message if the right conditions are met.
+function clearNotFound() {
+    // Clears the current displayed message, if one exists.
+    const message = document.getElementById('not-found');
+    if (message) {
+        parent.removeChild(message);
+    }
+}
+
+// Show's the initial page.
+exec(students);
+
+// Establishes structure and functionality to the search feature.
+const searchDiv = createSearchBox();
+const searchInput = searchDiv.firstElementChild;
+
+// Event listener that tracks changes made to the search input and filter results.
+searchInput.addEventListener('input', () => {
+    clearNotFound();
+    let value = searchInput.value.toUpperCase();
+    let list = [];
+    if (value.length > 0) {
+        for (let i = 0; i < students.length; i++) {
+            const studentName = students[i].firstElementChild.children[1].textContent.toUpperCase();
+            if (studentName.indexOf(value) > -1) {
+                list.push(students[i]);
+            }
+        }
+        if (list.length > 0) {
+            exec(list);
+        } else {
+            notFound();
+        }
+    } else {
+        exec(students);
+    }
+})
